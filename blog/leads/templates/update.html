@@ -1,0 +1,10 @@
+
+<form action="{% url 'leads:update_lead' form.instance.id %}" method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">
+        Update
+    </button>
+</form>
