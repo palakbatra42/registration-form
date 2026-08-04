@@ -1,45 +1,43 @@
-# Django Lead Management System
+# Lead Management System
 
-A Django REST Framework based Lead Management System that provides CRUD operations, JWT Authentication, lead filtering, status tracking, and API endpoints.
+A Django-based Lead Management System with JWT authentication and REST APIs for managing leads. The application provides secure CRUD operations, authentication, and lead management features.
+
+---
 
 ## Features
 
-- User Authentication using JWT
-- Lead Management (Create, Read, Update, Delete)
-- REST APIs
-- Status Workflow
-- Search & Filter Leads
-- CSV & Excel Export
-- Custom Exception Handling
-- MySQL/SQLite Support
-- Postman API Testing
+* User Authentication using JWT
+* Create, Read, Update, and Delete (CRUD) Leads
+* Protected APIs with authentication
+* Lead status management
+* Input validation
+* REST API built with Django REST Framework
+* API tested using Postman
 
 ---
 
 ## Technologies Used
 
-- Python 3.x
-- Django
-- Django REST Framework
-- Simple JWT
-- SQLite / MySQL
-- Git & GitHub
-- Postman
+* Python 3
+* Django
+* Django REST Framework
+* Simple JWT
+* MySQL
+* Postman
 
 ---
 
 ## Project Structure
 
-```
-project/
-│
-├── Controller/
-├── Models/
-├── migrations/
-├── Templates/
-├── static/
+```text
+.
+├── blog/
+├── project/
+│   ├── Controller/
+│   ├── Models/
+│   ├── Routes/
+│   └── Templates/
 ├── manage.py
-├── requirements.txt
 └── README.md
 ```
 
@@ -47,69 +45,96 @@ project/
 
 ## Installation
 
-Clone the repository
+### Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/your-username/your-repository.git
 ```
 
-Move into the project directory
+### Navigate to the Project
 
 ```bash
-cd project
+cd your-repository
 ```
 
-Create Virtual Environment
+### Install Dependencies
 
 ```bash
-python -m venv venv
+pip install django djangorestframework djangorestframework-simplejwt pymysql
 ```
 
-Activate Environment
-
-Windows
+### Apply Migrations
 
 ```bash
-venv\Scripts\activate
-```
-
-Install Dependencies
-
-```bash
-
-```
-
-Apply Migrations
-
-```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 
-Run Server
+### Run the Server
 
 ```bash
 python manage.py runserver
 ```
 
+The project will be available at:
+
+```
+http://127.0.0.1:8000/
+```
+
 ---
 
-## Authentication
+# Authentication
 
-JWT Authentication is implemented.
+The project uses JWT Authentication.
 
-Generate Token
+## Generate Token
 
-```
-POST /api/token/
-```
-
-Refresh Token
+**POST**
 
 ```
-POST /api/refresh/
+/api/token/
 ```
 
-Add the Access Token in the Authorization header.
+Request
+
+```json
+{
+    "username": "your_username",
+    "password": "your_password"
+}
+```
+
+Response
+
+```json
+{
+    "refresh": "<refresh_token>",
+    "access": "<access_token>"
+}
+```
+
+---
+
+## Refresh Token
+
+**POST**
+
+```
+/api/refresh/
+```
+
+Request
+
+```json
+{
+    "refresh": "<refresh_token>"
+}
+```
+
+---
+
+## Authorization Header
 
 ```
 Authorization: Bearer <access_token>
@@ -117,63 +142,54 @@ Authorization: Bearer <access_token>
 
 ---
 
-## API Endpoints
+# API Endpoints
 
-### Authentication
-
-| Method | Endpoint |
-|---------|----------|
-| POST | /api/token/ |
-| POST | /api/refresh/ |
-
-### Lead APIs
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | /list/ | Get All Leads |
-| POST | /list/add/ | Add Lead |
-| PUT/PATCH | /list/update/<id>/ | Update Lead |
-| DELETE | /list/delete/<id>/ | Delete Lead |
+| Method | Endpoint                 | Description          |
+| ------ | ------------------------ | -------------------- |
+| POST   | `/api/token/`            | Generate JWT Token   |
+| POST   | `/api/refresh/`          | Refresh Access Token |
+| GET    | `/api/list/`             | Get All Leads        |
+| POST   | `/api/list/add/`         | Add New Lead         |
+| PATCH  | `/api/list/update/<id>/` | Update Lead          |
+| DELETE | `/api/list/delete/<id>/` | Delete Lead          |
 
 ---
 
-## Lead Fields
+## Sample Add Lead Request
 
-- Name
-- Email
-- Phone
-- Source
-- Status
-- Assigned User
-- Created Date
-
----
-
-## Lead Status Workflow
-
-- New
-- Contacted
-- Qualified
-- Proposal Sent
-- Won
-- Lost
+```json
+{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "9876543210",
+    "status": "New"
+}
+```
 
 ---
 
-## Testing
+## Status Codes
 
-- Tested using Postman
-- JWT Authentication Verified
-- CRUD APIs Tested
+| Code | Description           |
+| ---- | --------------------- |
+| 200  | OK                    |
+| 201  | Created               |
+| 400  | Bad Request           |
+| 401  | Unauthorized          |
+| 404  | Not Found             |
+| 500  | Internal Server Error |
 
 ---
 
-## Future Improvements
+## API Testing
 
-- Pagination
-- Email Notifications
-- Dashboard Analytics
-- Role Based Access Control
+All APIs were tested using Postman.
+
+The Postman collection is included in the project:
+
+```
+Lead Management API.postman_collection.json
+```
 
 ---
 
