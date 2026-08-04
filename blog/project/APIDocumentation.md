@@ -78,8 +78,8 @@ Sample Request
 
 ```json
 {
-    "name": "Rahul",
-    "email": "rahul@example.com",
+    "name": "john",
+    "email": "john@example.com",
     "phone": "9876543210",
     "status": "New"
 }
