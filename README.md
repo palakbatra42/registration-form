@@ -76,7 +76,7 @@ venv\Scripts\activate
 Install Dependencies
 
 ```bash
-pip install -r requirements.txt
+
 ```
 
 Apply Migrations
@@ -106,7 +106,7 @@ POST /api/token/
 Refresh Token
 
 ```
-POST /api/token/refresh/
+POST /api/refresh/
 ```
 
 Add the Access Token in the Authorization header.
@@ -124,7 +124,7 @@ Authorization: Bearer <access_token>
 | Method | Endpoint |
 |---------|----------|
 | POST | /api/token/ |
-| POST | /api/token/refresh/ |
+| POST | /api/refresh/ |
 
 ### Lead APIs
 
