@@ -1,0 +1,58 @@
+{% extends 'Routes/base.html' %}
+
+{% block content %}
+
+<h3>Status History</h3>
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">Lead Details</h2>
+
+    <table class="table table-bordered">
+        <tr>
+            <th width="200">Name</th>
+            <td>{{ lead.name }}</td>
+        </tr>
+
+        <tr>
+            <th>Email</th>
+            <td>{{ lead.email }}</td>
+        </tr>
+
+        <tr>
+            <th>Phone</th>
+            <td>{{ lead.phone }}</td>
+        </tr>
+
+        <tr>
+            <th>Current Status</th>
+            <td>{{ lead.status }}</td>
+        </tr>
+    </table>
+
+</div>
+
+<hr>
+
+<h3>Status History</h3>
+<table class="table table-bordered">
+    <tr>
+  
+        <th>Old Status</th>
+        <th>New Status</th>
+        <th>Changed By</th>
+        <th>Date</th>
+    </tr>
+
+    {% for item in history %}
+  
+    <tr>
+        
+        <td>{{ item.old_status }}</td>
+        <td>{{ item.new_status }}</td>
+        <td>{{ item.changed_by }}</td>
+        <td>{{ item.changed_at }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock content %}

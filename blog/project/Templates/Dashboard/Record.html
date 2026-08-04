@@ -1,0 +1,523 @@
+{% extends 'Routes/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h1 class="alert alert-danger text-center">
+        Form Records
+    </h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">
+        Lead Dashboard
+    </h2>
+
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body text-center">
+                    <h5>Total Leads</h5>
+                   
+                    <h2>{% if total_leads %}{{ total_leads }} {% else %} {{ 0 }} {% endif %}</h2>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-dark bg-warning shadow">
+                <div class="card-body text-center">
+                    <h5>Open Leads</h5>
+                    <h2>{{ open_leads }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body text-center">
+                    <h5>Converted</h5>
+                    <h2>{{ converted_leads }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-danger shadow">
+                <div class="card-body text-center">
+                    <h5>Lost Leads</h5>
+                    <h2>{{ lost_leads }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% comment %} <div class="card mt-4 shadow">
+
+        <div class="card-body">
+
+            <h4>Conversion Rate</h4>
+
+            <div class="progress" style="height:30px;">
+
+                <div
+                    class="progress-bar bg-success" role="progressbar" style="width: {{ conversion_rate }}%;">
+
+                    {{ conversion_rate }}%
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>  {% endcomment %}
+
+    <div class="card mt-4 shadow">
+
+        <div class="card-header bg-dark text-white">
+            Recent Activity
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Lead</th>
+                        <th>Old Status</th>
+                        <th>New Status</th>
+                        <th>Updated By</th>
+                        <th>Date</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for i in recent_activity %}
+
+                    <tr>
+
+                        <td>{{ i.lead.name }}</td>
+
+                        <td>{{ i.old_status }}</td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                {{ i.new_status }}
+                            </span>
+                        </td>
+
+                        <td>{{ i.changed_by }}</td>
+
+                        <td>{{ i.changed_at }}</td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="5" class="text-center">
+                            No Recent Activity
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+ <div class="card mt-4 shadow">
+
+        <div class="card-header bg-light text-black">
+           
+
+    <form method="GET" action="{% url 'Lead:Record' %}" class="row g-3 mb-4">
+
+        <!-- Name -->
+
+        <div class="col-md-3">
+            <label class="form-label">Name</label>
+
+            <input
+                list="nameList"
+                name="name"
+                class="form-control"
+                value="{{ name }}"
+                placeholder="Search Name">
+
+            <datalist id="nameList">
+
+                {% for n in names %}
+                    <option value="{{ n }}">
+                {% endfor %}
+
+            </datalist>
+
+        </div>
+
+        <!-- Phone -->
+
+        <div class="col-md-3">
+            <label class="form-label">Phone</label>
+
+            <input
+                list="phoneList"
+                name="phone"
+                class="form-control"
+                value="{{ phone }}"
+                placeholder="Search Phone">
+
+            <datalist id="phoneList">
+
+                {% for p in phones %}
+                    <option value="{{ p }}">
+                {% endfor %}
+
+            </datalist>
+        </div>
+        <!-- Email -->
+
+        <div class="col-md-3">
+            <label class="form-label">Email</label>
+
+            <input
+                list="emailList"
+                name="email"
+                class="form-control"
+                value="{{ email }}"
+                placeholder="Search Email">
+
+            <datalist id="emailList">
+
+                {% for e in emails %}
+                    <option value="{{ e }}">
+                {% endfor %}
+
+            </datalist>
+
+        </div>
+
+        <!-- Status -->
+
+      <div class="col-md-2">
+    <label class="form-label">Status</label>
+    <select name="status" class="form-control">
+        <option value="">All Status</option>
+        {% for value, label in status_choices %}
+        <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+</div>
+        <!-- Source -->
+
+        <div class="col-md-3">
+            <label class="form-label">Source</label>
+
+            <input
+                list="sourceList"
+                name="source"
+                class="form-control"
+                value="{{ source }}"
+                placeholder="Source">
+
+            <datalist id="sourceList">
+
+                {% for s in sources %}
+                    <option value="{{ s }}">          
+                {% endfor %}
+            </datalist>
+
+        </div>
+        <!-- From Date -->
+        <div class="col-md-3">
+            <label class="form-label">From Date</label>
+            <input
+                type="date"
+                name="start_date"
+                value="{{ start_date }}"
+                class="form-control">
+        </div>
+        <!-- To Date -->
+        <div class="col-md-3">
+            <label class="form-label">To Date</label>
+            <input
+                type="date"
+                name="end_date"
+                value="{{ end_date }}"
+                class="form-control">
+        </div>
+        <!-- Assigned User -->
+        <div class="col-md-3">
+            <label class="form-label">Assigned User</label>
+           <select name="assigned_user" class="form-control">
+    <option value="">All</option>
+    <option value="Admin"
+        {% if assigned_user == "Admin" %}selected{% endif %}>
+        Admin
+    </option>
+    <option value="User"
+        {% if assigned_user == "User" %}selected{% endif %}>
+        User
+    </option>
+</select>
+        </div>
+    </div>
+    <br>
+        <!-- Search -->
+        <div class="col-md-3 d-flex align-items-end">
+
+            <button class="btn btn-primary w-100">
+                Search
+            </button>
+ 
+        <!-- Reset -->
+
+            <a href="{% url 'Lead:Record' %}" class="btn btn-success w-100">
+                Reset
+            </a>
+      
+        </div>
+    </form>
+{% comment %}
+    <label>
+        <input type="checkbox" name="columns" value="name" checked>
+        Name
+    </label>
+
+    <label>
+        <input type="checkbox" name="columns" value="email" checked>
+        Email
+    </label>
+
+    <label>
+        <input type="checkbox" name="columns" value="phone" checked>
+        Phone
+    </label>
+
+    <label>
+        <input type="checkbox" name="columns" value="source" checked>
+        Source
+    </label>
+
+    <label>
+        <input type="checkbox" name="columns" value="status" checked>
+        Status
+    </label> {% endcomment %}
+
+    {% comment %} <button formaction="{% url 'export_csv' %}">
+        Export CSV
+    </button> {% endcomment %}
+
+
+    <br>
+  
+    <form method="get" action="{% url 'Lead:Export_excel' %}">
+    <input type="hidden" name="name" value="{{ request.GET.name }}">
+    <input type="hidden" name="phone" value="{{ request.GET.phone }}">
+    <input type="hidden" name="email" value="{{ request.GET.email }}">
+    <input type="hidden" name="status" value="{{ request.GET.status }}">
+    <input type="hidden" name="source" value="{{ request.GET.source }}">
+    <input type="hidden" name="start_date" value="{{ request.GET.start_date }}">
+    <input type="hidden" name="end_date" value="{{ request.GET.end_date }}">
+    <input type="hidden" name="assigned_user" value="{{ request.GET.assigned_user }}">
+
+    <button type="submit">Export Excel</button>
+
+
+<form method="get" action="{% url 'Lead:Export_csv' %}">
+    <input type="hidden" name="name" value="{{ request.GET.name }}">
+    <input type="hidden" name="phone" value="{{ request.GET.phone }}">
+    <input type="hidden" name="email" value="{{ request.GET.email }}">
+    <input type="hidden" name="status" value="{{ request.GET.status }}">
+    <input type="hidden" name="source" value="{{ request.GET.source }}">
+    <input type="hidden" name="start_date" value="{{ request.GET.start_date }}">
+    <input type="hidden" name="end_date" value="{{ request.GET.end_date }}">
+    <input type="hidden" name="assigned_user" value="{{ request.GET.assigned_user }}">
+
+    <button type="submit">Export CSV</button>
+</form>
+</form>
+<br>
+
+{% comment %} <form method="get">
+
+    <!-- Your filters here -->
+    <hr>
+
+    <h5>Export Files</h5>
+
+    <input type="checkbox" name="columns" value="name" checked> Name
+    <input type="checkbox" name="columns" value="email" checked> Email
+    <input type="checkbox" name="columns" value="phone"> Phone
+    <input type="checkbox" name="columns" value="source"> Source
+    <input type="checkbox" name="columns" value="status"> Status
+    <input type="checkbox" name="columns" value="assigned_user"> Assigned User
+    </select>
+</div>
+   <a href="{% url 'export_csv' %}" class="btn btn-success">
+    Export CSV
+</a>
+<a href="{% url 'export_excel' %}" class="btn btn-primary">
+    Export Excel
+</a>
+</form> {% endcomment %}
+
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+  <h3>List of Users</h3>
+      
+
+        <div>
+            <a href="{% url 'Lead:Home' %}" class="btn btn-primary">
+                Add
+            </a>
+
+            <a href="{% url 'Register:Logout' %}" class="btn btn-danger">
+                Logout
+            </a>
+        </div>
+
+    </div>
+
+
+
+    {% if data %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Sno.</th>
+                    <th>
+                        Name
+                        <a href="?name={{name}}&phone={{phone}}&email={{email}}&status={{status}}&source={{source}}&start_date={{start_date}}&end_date={{end_date}}&assigned_user={{assigned_user}}&sort=name"
+                           class="text-white text-decoration-none">
+                            ▲
+                        </a>
+
+                        <a href="?name={{name}}&phone={{phone}}&email={{email}}&status={{status}}&source={{source}}&start_date={{start_date}}&end_date={{end_date}}&assigned_user={{assigned_user}}&sort=-name"
+                           class="text-white text-decoration-none">
+                            ▼
+                        </a>
+                    </th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Source</th>
+                    <th>Status</th>
+                    <th>Assigned User</th>
+                    <th>Date</th>
+                    
+                    <th width="180">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                {% csrf_token %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.email }}</td>
+                    <td>{{ i.phone }}</td>
+                    <td>{{ i.source }}</td>
+                <td>
+                   <form action="{% url 'Lead:Update_status' i.id %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{% url 'Lead:Record' %}">
+    <select name="status" onchange="this.form.submit()">
+
+        <option value="New" {% if i.status == "New" %}selected{% endif %}>
+            New
+        </option>
+
+        <option value="Contacted" {% if i.status == "Contacted" %}selected{% endif %}>
+            Contacted
+        </option>
+
+        <option value="Qualified" {% if i.status == "Qualified" %}selected{% endif %}>
+            Qualified
+        </option>
+
+        <option value="Proposal Sent" {% if i.status == "Proposal Sent" %}selected{% endif %}>
+            Proposal Sent
+        </option>
+
+        <option value="Won" {% if i.status == "Won" %}selected{% endif %}>
+            Won
+        </option>
+
+        <option value="Lost" {% if i.status == "Lost" %}selected{% endif %}>
+            Lost
+        </option>
+
+    </select>
+</form>
+
+
+
+                    </td>
+                    <td>{{ i.assigned_user}}</td>
+                    <td>{{ i.created_at|date:" d-m-Y" }}</td>
+                    
+                   <td class="text-center">
+
+    <a href="{% url 'Lead:Lead_detail' i.id %}"
+       class="btn btn-info btn-sm"
+       title="View">
+        👁
+    </a>
+
+    <a href="{% url 'Lead:Update_lead' i.id %}"
+       class="btn btn-success btn-sm"
+       title="Edit">
+        ✏️
+    </a>
+
+    <form action="{% url 'Lead:Delete_lead' i.id %}"
+          method="post"
+          class="d-inline">
+        {% csrf_token %}
+        <button class="btn btn-danger btn-sm" title="Delete">
+            🗑
+        </button>
+    </form>
+
+</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center">
+        No Record Found
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

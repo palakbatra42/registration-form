@@ -1,0 +1,88 @@
+{% extends 'Routes/base.html' %}
+
+{% block content %}
+
+<div class="container mt-5"> 
+
+    <div class="card shadow p-4">
+
+        <h2 class="text-center alert alert-success">
+            Update Lead
+        </h2>
+
+
+        <form action="{% url 'Lead:Update_lead' form.instance.id %}" method="post">
+
+            {% csrf_token %}
+
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Name</label>
+                    {{ form.name }}
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email</label>
+                    {{ form.email }}
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Phone</label>
+                    {{ form.phone }}
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Source</label>
+                    {{ form.source }}
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Status</label>
+                    {{ form.status }}
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Assigned User</label>
+                    {{ form.assigned_user }}
+                </div>
+
+
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Notes</label>
+                    {{ form.notes }}
+                </div>
+
+
+            </div>
+
+
+            
+    <div class="text-center">
+    <a href="{% url 'Lead:Record' %}">
+    <button type="submit" class="btn btn-primary px-4">
+        Update
+    </button>
+
+    <button type="submit" class="btn btn-danger px-4">
+        Cancel
+    </button>
+    </a>
+
+</div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
