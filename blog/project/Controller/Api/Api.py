@@ -8,9 +8,6 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import (TokenObtainPairView,TokenRefreshView,)
-# from rest_framework.views import exception_handler
-# from rest_framework.response import Response
-# from rest_framework import status
 from rest_framework.views import exception_handler
 
 @api_view(['GET'])
@@ -35,6 +32,7 @@ def Add_list(request):
     print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET', 'PUT', 'PATCH'])
 @permission_classes([IsAuthenticated])
 def Update_list(request, pk):
@@ -48,6 +46,7 @@ def Update_list(request, pk):
     if request.method == 'GET':
         Serializer = LeadSerializer(lead)
         return Response(Serializer.data)
+    
     #PATCH
     if request.method == 'PATCH':
         Serializer = LeadSerializer(lead, data=request.data, partial=True)
@@ -63,32 +62,24 @@ def Update_list(request, pk):
 #DELETE
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])  
-def Delete_list(request,pk):
+def Delete_list(request, pk):
     try:
-        leads=Lead.objects.get(id=pk)
+        lead = Lead.objects.get(id=pk)
+        lead.delete()
+
+        return Response(
+            {"message": "Lead deleted successfully"},
+            status=status.HTTP_200_OK
+        )
+
     except Lead.DoesNotExist:
-        return Response({"error":"Lead not found"},status=status.HTTP_400_NOT_FOUND)
-
-    leads.delete()
-    return Response({"MESSAGE":"Lead deleted successfully"} ,status= status.HTTP_204_NO_CONTENT)
-
-
-# def custom_exception_handler(exc, context):
-#     response = exception_handler(exc, context)
-
-#     if response and response.status_code == 401:
-#         response.data = {
-#             "message": "Authentication credentials were not provided."
-#         }
-
-#     return response
-
-
-
+        return Response(
+            {"message": "Lead data already deleted"},
+            status=status.HTTP_404_NOT_FOUND
+        )
 
 def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
-
     if response:
         response.data = {
             "detail": response.data.get("detail", "Error occurred"),
@@ -102,3 +93,10 @@ def custom_exception_handler(exc, context):
         }
 
     return response
+
+#GIT COMMANDS USED TO UPLOAD PROJECT TO GITHUB
+
+# git status
+# git add .
+# git commit -m "Updated project files"
+# git push origin main
