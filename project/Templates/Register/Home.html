@@ -1,0 +1,102 @@
+{% extends 'Routes/base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6 col-md-8 col-sm-12">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>REGISTRATION</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            {{ form.name }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            {{ form.email }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phone</label>
+                            {{ form.phone }}
+                        </div>
+
+                        {% if form.source %}
+                        <div class="mb-3">
+                            <label class="form-label">Source</label>
+                            {{ form.source }}
+                        </div>
+                        {% endif %}
+
+                        {% if form.status %}
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            {{ form.status }}
+                        </div>
+                        {% endif %}
+
+                        {% if form.notes %}
+                        <div class="mb-3">
+                            <label class="form-label">Notes </label>
+                            {{ form.notes }}
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                        <label>Assigned User</label>
+                        {{ form.assigned_user }}
+                        </div>
+            
+
+
+                        
+                        <div class="d-grid">                               
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-success alert-dismissible fade show" >
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                            
+                            <button type="submit" class="btn btn-success">
+                                Save Lead
+ 
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="card-footer text-center">
+                    <a href="{% url 'Lead:Record' %}" class="btn btn-primary">
+                        View Records
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock content %}
+
+
+

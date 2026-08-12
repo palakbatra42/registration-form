@@ -1,0 +1,64 @@
+# Ignore local secrets and Google service credentials
+service.json
+*.json
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+myenv/
+
+# Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+db.sqlite3
+local_settings.py
+media/
+staticfiles/
+
+# Environment files
+.env
+.env.*
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Build / coverage / test artifacts
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS files
+Desktop.ini
+
+# Local database / data exports
+*.bak
+*.sql
+*.dump
+
+# Optional project-specific ignores
+blog/project/myenv/
+blog/**/migrations/__pycache__/
+blog/**/migrations/*.pyc
+blog/newdb/
+blog/project/Controller/Credentials/service.json
+blog/project/Controller/Credentials/service.json
+credentials.json
+.env
