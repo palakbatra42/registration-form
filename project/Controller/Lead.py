@@ -41,6 +41,7 @@ def Add_lead(request):
 
     return render(request, "Dashboard/record.html", {"form": form})
 
+
 @login_required(login_url='Login') 
 def Delete_lead(request, id):
     lead = get_object_or_404(Lead, id=id)
@@ -88,7 +89,7 @@ def Home(request):
     return render(request, "Register/Home.html", {"form": form})
 
 @login_required(login_url="Login")
-def Get_filtered_leads(request):
+def Get_filtered_leads(request): 
     data = Lead.objects.all()
 
     name = request.GET.get("name")
@@ -363,7 +364,7 @@ def Import_csv(request):
             Lead.objects.create(
                 name=name,
                 email=email,
-                phone=int(phone),
+                phone=phone,
                 source=source,
                 status=status if status else "New",
             )

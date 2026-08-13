@@ -1,21 +1,39 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 
 from project.Controller.Notification import Send_email, Update_email
-class Lead(models.Model):
 
+
+#DATABASE MODEL
+# So this file is responsible for:
+
+# database schema
+# row data storage
+# business rules tied to the record
+# saving behavior
+
+class Lead(models.Model):
     STATUS_CHOICES = [
         ("New", "New"),
         ("Contacted", "Contacted"),
         ("Qualified", "Qualified"),
         ("Proposal Sent", "Proposal Sent"),
         ("Won", "Won"),
-        ("Lost", "Lost"),
-    ]
-
+        ("Lost", "Lost"),]
     name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True,blank=True, null=True)
-    phone = models.BigIntegerField(max_length=10,blank=True, null=True)
+    email = models.EmailField(unique=True)
+    phone = models.CharField(
+        max_length=10,
+        blank=True,
+        null=True,
+        validators=[
+            RegexValidator(
+                regex=r'^\d{10}$',
+                message='Phone number must be exactly 10 digits.'
+            )
+        ]
+    )
     source = models.CharField(max_length=50)
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default="New")
     notes = models.TextField(blank=True)

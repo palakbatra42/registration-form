@@ -35,7 +35,7 @@ def Add_list(request):
 
 @api_view(['GET', 'PUT', 'PATCH'])
 @permission_classes([IsAuthenticated])
-def Update_list(request, pk):
+def Update_list(request, pk): 
     #PUT
     try:
         lead = Lead.objects.get(id=pk)
@@ -91,7 +91,6 @@ def custom_exception_handler(exc, context):
                 }
             ]
         }
-
     return response
 
 #GIT COMMANDS USED TO UPLOAD PROJECT TO GITHUB

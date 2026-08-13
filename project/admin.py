@@ -2,7 +2,6 @@
 
 # Register your models here.
 print("PROJECT ADMIN LOADED")
-
 from django.contrib import admin
 from project.Models.Lead import Lead
 

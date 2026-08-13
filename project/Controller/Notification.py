@@ -47,8 +47,5 @@ def Update_email(lead):
             <tr><th>Status</th><td>{lead.status}</td></tr>
         </table>
         """
-
-        
-
         email.attach_alternative(html_content, "text/html")
         email.send()

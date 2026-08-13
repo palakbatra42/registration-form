@@ -14,7 +14,7 @@ class LeadSerializer(serializers.ModelSerializer):
         return value
 
     def validate_phone(self, value):
-        value = str(value)
+        value = str(value).strip()
 
         if not value.isdigit():
             raise serializers.ValidationError(
