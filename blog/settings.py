@@ -33,13 +33,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ALLOWED_HOSTS = []
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG") == "True"
-ALLOWED_HOSTS = ['*']
-# SECRET_KEY = os.environ.get("SECRET_KEY")
-
-# DEBUG = "False"
-
-# ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
+DEBUG = os.getenv("DEBUG", "False") == "True"
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 # Application definition
 
@@ -108,11 +103,11 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": os.getenv("MYSQLDATABASE"),
-        "USER": os.getenv("MYSQLUSER"),
-        "PASSWORD": os.getenv("MYSQLPASSWORD"),
-        "HOST": os.getenv("MYSQLHOST"),
-        "PORT": os.getenv("MYSQLPORT"),
+        "NAME": os.getenv("DB_NAME", "railway"),
+        "USER": os.getenv("DB_USER", "root"),
+        "PASSWORD": os.getenv("DB_PASSWORD", ""),
+        "HOST": os.getenv("DB_HOST", "mysql-7l15.railway.internal"),
+        "PORT": os.getenv("DB_PORT", "3306"),
     }
 }
 
@@ -152,8 +147,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True               #TLS= Transport Layer Security
-EMAIL_HOST_USER = "palak_batra@42works.net"
-EMAIL_HOST_PASSWORD ="lxgaxydpkapbiasq"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 RECIPIENT_LIST = ["adminpalak@yopmail.com"]
 
@@ -186,3 +181,22 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Production Security Settings
+# https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+if not DEBUG:
+    # HTTPS and Security Headers
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_SECURITY_POLICY = True
+    X_FRAME_OPTIONS = 'DENY'
+    
+    # HSTS Settings
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    
+    # CSRF Trusted Origins for Railway deployment
+    CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if os.getenv("CSRF_TRUSTED_ORIGINS") else []
