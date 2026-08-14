@@ -4,10 +4,11 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 from project.Models.Lead import Lead
+
 try:
     from google.oauth2 import service_account
     from googleapiclient.discovery import build
-except ImportError: 
+except ImportError:
     service_account = None
     build = None
 

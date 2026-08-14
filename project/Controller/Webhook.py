@@ -3,7 +3,6 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from project.Models.Lead import Lead 
 
-
 @csrf_exempt
 def Webhook(request):
     if request.method != "POST":
@@ -17,7 +16,7 @@ def Webhook(request):
         source=data.get("source")
 
         if not name or (not email and not phone):
-            return JsonResponse({"error":"Missing Required fields"},status=400) #Bad Request Invalid JSON /missing required data
+            return JsonResponse({"error":"Missing Required fields"},status=400)  #Bad Request Invalid JSON /missing required data
 
         if email and Lead.objects.filter(email=email).exists():
             return JsonResponse({"message":"Lead with this email already exists"}, status=200)
@@ -36,5 +35,4 @@ def Webhook(request):
     except json.JSONDecodeError:
         return JsonResponse({"error":"Invalid JSON"}, status=400)
 
-
-#500 Internal Server Error-	Error in your Django code
+# 500 Internal Server Error - Error in your Django code
