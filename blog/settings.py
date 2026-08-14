@@ -95,17 +95,26 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'newdb',
+#         'USER': 'root',
+#         'PASSWORD': 'root@1234',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#     }
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'newdb',
-        'USER': 'root',
-        'PASSWORD': 'root@1234',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("railway"),
+        "USER": os.getenv("root"),
+        "PASSWORD": os.getenv("hJGTnZsZCYuSkRZDDkiHOTLOHsfGBpUx"),
+        "HOST": os.getenv("mysql-7l15.railway.internal"),
+        "PORT": os.getenv("3306"),
     }
 }
-
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
