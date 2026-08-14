@@ -108,11 +108,11 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": os.getenv("railway"),
-        "USER": os.getenv("root"),
-        "PASSWORD": os.getenv("hJGTnZsZCYuSkRZDDkiHOTLOHsfGBpUx"),
-        "HOST": os.getenv("mysql-7l15.railway.internal"),
-        "PORT": os.getenv("3306"),
+        "NAME": os.getenv("MYSQLDATABASE"),
+        "USER": os.getenv("MYSQLUSER"),
+        "PASSWORD": os.getenv("MYSQLPASSWORD"),
+        "HOST": os.getenv("MYSQLHOST"),
+        "PORT": os.getenv("MYSQLPORT"),
     }
 }
 
