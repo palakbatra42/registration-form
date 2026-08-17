@@ -32,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ALLOWED_HOSTS = []
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = "2b_o$=68ta1xpryw+yo559939!j5e!k^zw2r%#8^7nc7--ri*-"
 DEBUG = os.getenv("DEBUG") == "True"
 # ALLOWED_HOSTS = [
 #     "registration-form-production-8941.up.railway.app"
@@ -152,7 +152,31 @@ else:
     }
 
 
-
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
 
 
 
