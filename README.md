@@ -325,7 +325,7 @@ The integration can be used to:
 * Add lead data to Google Sheets
 * Fetch lead data
 * Synchronize lead records
-* Avoid duplicate lead entries
+* Avoid  lead entries
 
 Google Cloud credentials are required for Google Sheets API access.
 

@@ -33,9 +33,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ALLOWED_HOSTS = []
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG", "False") == "True"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+DEBUG = os.getenv("DEBUG") == "True"
+# ALLOWED_HOSTS = [
+#     "registration-form-production-8941.up.railway.app"
+# ]
 
+ALLOWED_HOSTS = [
+    "registration-form-production-8941.up.railway.app",
+    "your-custom-domain.com",
+    "localhost",
+    "127.0.0.1",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://registration-form-production-8941.up.railway.app",
+    "https://your-custom-domain.com",
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -100,16 +113,70 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 #         'PORT': '3306',
 #     }
 # }
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": os.getenv("DB_NAME", "railway"),
-        "USER": os.getenv("DB_USER", "root"),
-        "PASSWORD": os.getenv("DB_PASSWORD", ""),
-        "HOST": os.getenv("DB_HOST", "mysql-7l15.railway.internal"),
-        "PORT": os.getenv("DB_PORT", "3306"),
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": os.getenv("DB_NAME", "newdb"),
+#         "USER": os.getenv("DB_USER", "root"),
+#         "PASSWORD": os.getenv("DB_PASSWORD", "root@1234"),
+#         "HOST": os.getenv("DB_HOST", "mysql-7l15.railway.internal"),
+#         "PORT": os.getenv("DB_PORT", "3306"),
+#     }
+# }
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "newdb",
+#         "USER": "root",
+#         "PASSWORD": "root@1234",
+#         "HOST": "127.0.0.1",
+#         "PORT": "3306",
+#     }
+# }
+
+if os.getenv("DATABASE_URL"):
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.getenv("DATABASE_URL")
+        )
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "newdb",
+            "USER": "root",
+            "PASSWORD": "root@1234",
+            "HOST": "127.0.0.1",
+            "PORT": "3306",
+        }
+    }
+
+
+
+
+
+
+
+# DATABASE = {
+#     'default': dj_database_url.config(
+#         default=os.getenv("DATABASE_URL")
+#     )
+# }
+
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": os.getenv("railway"),
+#         "USER": os.getenv("root"),
+#         "PASSWORD": os.getenv("oLTKBOXamEKIFKoitrgmFEIrgLOmGjqF"),
+#         "HOST": os.getenv("mysql.railway.internal"),
+#         "PORT": os.getenv("3306"),
+#     }
+# }
+
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -173,7 +240,7 @@ LOGOUT_REDIRECT_URL = 'Register:Login'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -184,19 +251,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Production Security Settings
 # https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+
 if not DEBUG:
-    # HTTPS and Security Headers
-    SECURE_SSL_REDIRECT = True
+    SECURE_SSL_REDIRECT = False
+
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_SECURITY_POLICY = True
+
     X_FRAME_OPTIONS = 'DENY'
-    
+
+
+
     # HSTS Settings
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
+    # SECURE_HSTS_SECONDS = 31536000
+    # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    # SECURE_HSTS_PRELOAD = True
     
     # CSRF Trusted Origins for Railway deployment
-    CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if os.getenv("CSRF_TRUSTED_ORIGINS") else []
+    # CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if os.getenv("CSRF_TRUSTED_ORIGINS") else []
