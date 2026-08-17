@@ -133,13 +133,13 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 #     }
 # }
 
-if os.getenv("DATABASE_URL"):
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL:
     DATABASES = {
-        "default": dj_database_url.config(
-            default=os.getenv("DATABASE_URL")
-        )
+        "default": dj_database_url.config(default=DATABASE_URL)
     }
 else:
+    # local dev fallback only
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
