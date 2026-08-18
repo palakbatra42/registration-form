@@ -15,7 +15,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from collections import Counter
 
-@login_required(login_url='Login')
+@login_required(login_url='/login/')
 def Add_lead(request):
     if request.method == "POST":
         form = LeadForm(request.POST)
@@ -41,7 +41,7 @@ def Add_lead(request):
     return render(request, "Dashboard/record.html", {"form": form})
 
 
-@login_required(login_url='Login') 
+@login_required(login_url='/login/') 
 def Delete_lead(request, id):
     lead = get_object_or_404(Lead, id=id)
 
@@ -51,7 +51,8 @@ def Delete_lead(request, id):
 
     return render(request, "Dashboard/Record.html", {"lead": lead})
 
-@login_required(login_url='Login')
+
+@login_required(login_url='/login/')
 def Update_lead(request, id):
     lead = get_object_or_404(Lead, id=id)
 
@@ -64,19 +65,17 @@ def Update_lead(request, id):
             print("FORM VALID")
             form.save()
             return redirect("Lead:Record")
-        
         else:
             print("ERROR:", form.errors)
-
     else:
         form = LeadForm(instance=lead)
-
     return render(request, "Dashboard/Update.html", {
         "form": form,
         "lead": lead,
     })
 
-@login_required(login_url='Login')
+
+@login_required(login_url='/login/')
 def Home(request):
     if request.method == "POST":
         form = LeadForm(request.POST)
@@ -87,7 +86,8 @@ def Home(request):
         form = LeadForm()
     return render(request, "Register/Home.html", {"form": form})
 
-@login_required(login_url="Login")
+
+@login_required(login_url='/login/')
 def Get_filtered_leads(request): 
     data = Lead.objects.all()
 
@@ -126,9 +126,7 @@ def Get_filtered_leads(request):
         data = data.order_by("-name")
     return data
 
-   
-
-@login_required(login_url='Login')
+@login_required(login_url='/login/')
 def Record(request):
     data = Get_filtered_leads(request)
 
@@ -147,7 +145,7 @@ def Record(request):
 
     return render(request, "Dashboard/Record.html", context)
 
-@login_required(login_url='Login')
+@login_required(login_url='/login/')
 def Dash(request):
     context = Get_Dashboard_Data()
     return render(request, "Dashboard/Record.html", context)
@@ -186,7 +184,8 @@ def Get_Dashboard_Data():
         "recent_activity": recent_activity,
     }
 
-@login_required(login_url='Login')
+
+@login_required(login_url='/login/')
 def Export_csv(request):
     data = Get_filtered_leads(request)
     columns = request.GET.getlist("columns")
@@ -211,7 +210,7 @@ def Export_csv(request):
 
     return response
 
-@login_required(login_url='Login')
+@login_required(login_url='/login/')
 def Export_excel(request):
 
     data = Get_filtered_leads(request)
@@ -279,7 +278,7 @@ def Export_excel(request):
 
     return response
 
-@login_required(login_url='Login')
+@login_required(login_url='/login/')
 def Update_status(request, id):
     lead = get_object_or_404(Lead, id=id)
 
@@ -306,7 +305,8 @@ def Update_status(request, id):
         return redirect(next_url)
     redirect("Lead:Record")
 
-@login_required(login_url='Login')
+
+@login_required(login_url='/login/')
 def Lead_detail(request, id):
     lead = get_object_or_404(Lead, id=id)
 
@@ -319,7 +319,7 @@ def Lead_detail(request, id):
         "history": history,
     })
 
-
+@login_required(login_url='/login/')
 def Import_csv(request):
     if request.method == "POST":
         csv_file = request.FILES.get("csv_file")
@@ -373,3 +373,15 @@ def Import_csv(request):
 
         messages.success(request,f"Imported: {imported}, Duplicates: {len(duplicate)}, Invalid: {len(invalid)}")
     return redirect("Lead:Record") 
+
+
+# replace something from file
+#  (Get-Content project\Controller\Lead.py) -replace "login_url='Register:Login'", "login_url='/login/'" | Set-Content project\Controller\Lead.py
+
+#to confirm file changed
+#Select-String "login_url" project\Controller\Lead.py
+
+
+
+# 2. Confirm it's committed and pushed:
+# git log -p -1 -- project/Controller/Lead.py

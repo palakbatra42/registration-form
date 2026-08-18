@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-
 def SignupPage(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -57,7 +56,34 @@ def LoginPage(request):
     return render(request, "Register/LoginPage.html")
 
 
-@login_required(login_url='Register:Login')
 def LogoutPage(request):
     logout(request)
     return redirect("Register:Login")
+
+
+
+
+# search for login_required
+#  Get-ChildItem -Recurse -File -Filter *.py | Select-String "login_required"
+
+
+# 1. Get-ChildItem
+# Lists files and folders in the current directory.
+# It is similar to dir in Windows.
+
+# 2. -Recurse
+# Searches inside all subfolders, not just the current folder.
+
+# 3. -File
+# Only considers files, not directories.
+
+# 4. -Filter *.py
+# Only selects Python files.
+# So it searches files such as:
+# views.py
+# models.py
+# urls.py
+# settings.py
+
+# 5. Select-String "login_required"
+# Searches the contents of those Python files for the exact text: login_required

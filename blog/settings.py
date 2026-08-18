@@ -33,19 +33,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ALLOWED_HOSTS = []
 
 SECRET_KEY = "2b_o$=68ta1xpryw+yo559939!j5e!k^zw2r%#8^7nc7--ri*-"
-DEBUG = os.getenv("DEBUG") == "True"
-# ALLOWED_HOSTS = [
-#     "registration-form-production-8941.up.railway.app"
-# ]
+DEBUG = os.getenv("DEBUG") == "False"
 
 ALLOWED_HOSTS = (
     os.getenv("ALLOWED_HOSTS", "").split(",")
     if os.getenv("ALLOWED_HOSTS")
     else []
 )
-
-# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") if os.getenv("ALLOWED_HOSTS") else []
-
 CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if os.getenv("CSRF_TRUSTED_ORIGINS") else []
 # Application definition
 
@@ -59,8 +53,6 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'project.apps.ProjectConfig',
     'rest_framework',
-
-
 
 ]
 
@@ -255,12 +247,12 @@ USE_TZ = True
 
 ROOT_URLCONF = "blog.main_urls"
 
-LOGIN_URL = 'Register:Login'
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'Lead:Record'
 LOGOUT_REDIRECT_URL = 'Register:Login'
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# https://docs.djangoproject.com/en/5.2/howto/static-files/ 
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
