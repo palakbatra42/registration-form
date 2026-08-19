@@ -33,8 +33,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ALLOWED_HOSTS = []
 
 SECRET_KEY = "2b_o$=68ta1xpryw+yo559939!j5e!k^zw2r%#8^7nc7--ri*-"
-DEBUG = os.getenv("DEBUG") == "False"
 
+DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = (
     os.getenv("ALLOWED_HOSTS", "").split(",")
     if os.getenv("ALLOWED_HOSTS")

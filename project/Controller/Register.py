@@ -80,10 +80,10 @@ def LogoutPage(request):
 # 4. -Filter *.py
 # Only selects Python files.
 # So it searches files such as:
-# views.py
-# models.py
-# urls.py
-# settings.py
+    # views.py
+    # models.py
+    # urls.py
+    # settings.py
 
 # 5. Select-String "login_required"
 # Searches the contents of those Python files for the exact text: login_required

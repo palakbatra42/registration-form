@@ -346,6 +346,7 @@ def Import_csv(request):
             if not name or not email or not phone:
                 invalid.append(f"Row {row_no}")
                 continue
+            
 
             if not phone.isdigit():
                 invalid.append(f"Row {row_no}")

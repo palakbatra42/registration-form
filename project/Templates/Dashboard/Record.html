@@ -17,11 +17,32 @@
     {% endif %}
 
 
-<div class="container mt-4">
-
-    <h2 class="text-center mb-4">
+<div class="position-relative mb-4">
+    <h2 class="text-center mb-0">
         Lead Dashboard
     </h2>
+
+    <div class="dropdown position-absolute top-0 end-0">
+        <button
+            class="btn btn-primary dropdown-toggle"
+            type="button"
+            id="documentsDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">Document </button>
+
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="documentsDropdown">
+            <li><a class="dropdown-item" href="{% url 'Api:List' %}">List</a></li>
+            <li><a class="dropdown-item" href="{% url 'Api:Add' %}">Add</a></li>
+             <li><a class="dropdown-item" href="{% url 'Api:Token' %}">Get Token</a></li>
+            <li><a class="dropdown-item" href="{% url 'Api:Refresh' %}">Refresh Token</a></li>
+            {% comment %} <li><a class="dropdown-item" href="{% url 'Api:Update' %}">Get Token</a></li>
+            <li><a class="dropdown-item" href="{% url 'Api:Delete' %}">Refresh Token</a></li> {% endcomment %}
+            <li><a class="dropdown-item" href="{% url 'Api:Pick' %}">Update / Delete</a></li>
+        </ul>
+    </div>
+</div>
+<br>
+ 
 
     <div class="row">
         <div class="col-md-3 mb-3">
@@ -29,7 +50,7 @@
                 <div class="card-body text-center">
                     <h5>Total Leads</h5>
                    
-                    <h2>{% if total_leads %}{{ total_leads }} {% else %} {{ 0 }} {% endif %}</h2>
+                    <h2>{% if total_leads %}{{ total_leads }}{% else %} {{ 0 }} {% endif %}</h2>
                 </div>
             </div>
         </div>
