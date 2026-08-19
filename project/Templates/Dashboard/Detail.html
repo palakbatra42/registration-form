@@ -1,0 +1,30 @@
+{% extends 'Routes/base.html' %}
+{% block content %}
+<section>
+    <h2>Get Lead</h2>
+
+    <form method="post" style="margin-bottom:20px;">
+        {% csrf_token %}
+        <label for="id">Enter Lead ID:</label>
+        <input type="number" name="id" id="id" value="{{ lead_id|default:'' }}" required>
+        <button type="submit">Fetch Lead</button></form>
+
+    {% if error %}
+        <div class="note" style="border-left-color:#ef4444;background:#fee2e2;">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    {% if lead %}
+        <table>
+            <tr><th>ID</th><td>{{ lead.id }}</td></tr>
+            <tr><th>Name</th><td>{{ lead.name }}</td></tr>
+            <tr><th>Email</th><td>{{ lead.email }}</td></tr>
+            <tr><th>Phone</th><td>{{ lead.phone }}</td></tr>
+            <tr><th>Source</th><td>{{ lead.source }}</td></tr>
+            <tr><th>Status</th><td>{{ lead.status }}</td></tr>
+        </table>
+    {% endif %}
+</section>
+{% endblock %}
+

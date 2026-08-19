@@ -15,6 +15,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from collections import Counter
 
+
 @login_required(login_url='/login/')
 def Add_lead(request):
     if request.method == "POST":
@@ -374,6 +375,33 @@ def Import_csv(request):
 
         messages.success(request,f"Imported: {imported}, Duplicates: {len(duplicate)}, Invalid: {len(invalid)}")
     return redirect("Lead:Record") 
+
+
+def Api_document(request):
+    return render(request, 'Dashboard/Document.html')
+
+
+def Detail(request):
+    lead = None
+    error = None
+    lead_id = None
+ 
+    if request.method == 'POST':
+        lead_id = request.POST.get('id')
+ 
+        if lead_id:
+            try:
+                lead = Lead.objects.get(id=lead_id)
+            except Lead.DoesNotExist:
+                error = f"No lead found with ID {lead_id}"
+ 
+    return render(request, 'Dashboard/Detail.html', {
+        'lead': lead,
+        'error': error,
+        'lead_id': lead_id,
+    })
+
+ 
 
 
 # replace something from file

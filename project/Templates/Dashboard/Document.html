@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Management System - API Documentation</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #4d7fe2;
+            color: #222;
+        }
+
+        header {
+            background: #f73c43;
+            color: white;
+            padding: 30px 50px;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        header p {
+            margin: 0;
+            color: #3bc928;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .sidebar {
+            width: 250px;
+            min-height: calc(100vh - 100px);
+            background: white;
+            padding: 25px 15px;
+            border-right: 1px solid #3aeb6f;
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px 12px;
+            text-decoration: none;
+            color: #374151;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar a:hover {
+            background: #6de83c;
+            color: #4f46e5;
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #111827;
+        }
+
+        h3 {
+            margin-top: 25px;
+            color: #374151;
+        }
+
+        .endpoint {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .get {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .post {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .put {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .delete {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        code {
+            background: #f3f4f6;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+        }
+
+        pre {
+            background: #111827;
+            color: #f9f5f2;
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #f3f4f6;
+        }
+
+        .note {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #12110f;
+        }
+
+        @media (max-width: 800px) {
+            .container {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                position: relative;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>API Documentation for Lead Management System</h1>
+</header>
+
+<div class="container">
+
+    
+<aside class="sidebar">
+        <h2>AUTHENTICATION</h2>
+
+        <a href="{% url 'Api:Token' %}">Get Token</a>
+        <a href="{% url 'Api:Refresh' %}">Refresh Token</a>
+
+        <h2>Lead </h2>
+        
+        <a href="{% url 'Api:List' %}">LIST</a>
+        <a href="{% url 'Api:Add' %}">Add Leads</a>
+        <a href="{% url 'Api:Pick' %}">Update Lead</a>
+        <a href="{% url 'Api:Pick' %}">Delete Lead</a>
+        <a href="{% url 'Lead:Detail' %}">Get Lead</a>
+      
+    </aside>
+    <main class="content">
+
+        <!-- Overview -->
+        <section id="overview">
+            <h2>Overview</h2>
+
+            <p>
+                The Lead Management System API provides endpoints for managing
+                leads, authentication, lead status, and CRUD operations.
+            </p>
+
+            <div class="note">
+                <strong>Base URL:</strong>
+                <code>https://your-domain.com/api/</code>
+            </div>
+
+            <h3>Features</h3>
+
+            <ul>
+                <li>User authentication using JWT</li>
+                <li>Create leads</li>
+                <li>View leads</li>
+                <li>Update leads</li>
+                <li>Delete leads</li>
+                <li>Manage lead status</li>
+                <li>Protected API endpoints</li>
+            </ul>
+        </section>
+
+
+        <!-- Authentication -->
+        <section id="authentication">
+            <h2>Authentication</h2>
+
+            <p>
+                The API uses JSON Web Token (JWT) authentication.
+                A valid access token must be provided when accessing
+                protected endpoints.
+            </p>
+
+            <h3>Authorization Header</h3>
+
+            <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+
+            <div class="note">
+                Login first to receive an access token.
+            </div>
+        </section>
+
+
+        <!-- Login -->
+        <section id="login">
+            <h2>Login</h2>
+
+            <span class="endpoint post">POST</span>
+            <code>/api/token/</code>
+
+            <p>Authenticates a user and returns JWT access and refresh tokens.</p>
+
+            <h3>Request</h3>
+
+            <pre>{
+                "username": "admin",
+                "password": "your_password"
+            }</pre>
+
+            <h3>Response</h3>
+
+            <pre>{
+            "refresh": "your_refresh_token",
+            "access": "your_access_token"
+        }</pre>
+        </section>
+
+
+        <!-- Lead APIs -->
+        <section id="leads">
+            <h2>Lead APIs</h2>
+
+            <p>
+                These endpoints are used to create, read, update and delete
+                leads from the system.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Authentication</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/list/</td>
+                        <td>Get all leads</td>
+                        <td>Required</td>
+                    </tr>
+
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/list/add/</td>
+                        <td>Create a new lead</td>
+                        <td>Required</td>
+                    </tr>
+
+                    <tr>
+                        <td>PUT</td>
+                        <td>/api/list/update/&lt;id&gt;/</td>
+                        <td>Update a lead</td>
+                        <td>Required</td>
+                    </tr>
+
+                    <tr>
+                        <td>DELETE</td>
+                        <td>/api/list/delete/&lt;id&gt;/</td>
+                        <td>Delete a lead</td>
+                        <td>Required</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+        <!-- List -->
+        <section id="list">
+            <h2>List Leads</h2>
+
+            <span class="endpoint get">GET</span>
+            <code>/api/list/</code>
+
+            <p>Returns a list of all leads.</p>
+
+            <h3>Headers</h3>
+
+            <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+
+            <h3>Example Response</h3>
+
+            <pre>[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com",
+        "phone": "9876543210",
+        "source": "Website",
+        "status": "New"
+    },
+    {
+        "id": 2,
+        "name": "Jane Doe",
+        "email": "jane@example.com",
+        "phone": "9876543211",
+        "source": "Facebook",
+        "status": "Contacted"
+    }
+]</pre>
+        </section>
+
+
+        <!-- Create -->
+        <section id="create">
+            <h2>Create Lead</h2>
+
+            <span class="endpoint post">POST</span>
+            <code>/api/list/add/</code>
+
+            <p>Creates a new lead in the database.</p>
+
+            <h3>Headers</h3>
+
+            <pre>Content-Type: application/json
+Authorization: Bearer &lt;access_token&gt;</pre>
+
+            <h3>Request Body</h3>
+
+            <pre>{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "9876543210",
+    "source": "Website",
+    "status": "New"
+}</pre>
+
+            <h3>Success Response</h3>
+
+            <pre>{
+    "message": "Lead created successfully",
+    "lead": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com",
+        "phone": "9876543210",
+        "source": "Website",
+        "status": "New"
+    }
+}</pre>
+        </section>
+
+
+        <!-- Update -->
+        <section id="update">
+            <h2>Update Lead</h2>
+
+            <span class="endpoint put">PUT</span>
+            <code>/api/list/update/&lt;id&gt;/</code>
+
+            <p>Updates an existing lead.</p>
+
+            <h3>Example</h3>
+
+            <pre>PUT /api/list/update/1/</pre>
+
+            <h3>Request Body</h3>
+
+            <pre>{
+            "name": "John Smith",
+            "email": "johnsmith@example.com",
+            "phone": "9876543210",
+            "source": "Website",
+            "status": "Qualified"
+        }</pre>
+
+            <h3>Response</h3>
+
+                <pre>{
+        "message": "Lead updated successfully"
+    }</pre>
+            </section>
+
+
+        <!-- Delete -->
+        <section id="delete">
+            <h2>Delete Lead</h2>
+
+            <span class="endpoint delete">DELETE</span>
+            <code>/api/list/delete/&lt;id&gt;/</code>
+
+            <p>Deletes a lead using its ID.</p>
+
+            <h3>Example</h3>
+
+            <pre>DELETE /api/list/delete/1/</pre>
+
+            <h3>Headers</h3>
+
+            <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+
+            <h3>Response</h3>
+
+            <pre>{
+    "message": "Lead deleted successfully"
+}</pre>
+        </section>
+
+
+        <!-- Refresh -->
+        <section id="refresh">
+            <h2>Refresh Access Token</h2>
+
+            <span class="endpoint post">POST</span>
+            <code>/api/token/refresh/</code>
+
+            <p>
+                Generates a new access token using a valid refresh token.
+            </p>
+
+            <h3>Request</h3>
+
+            <pre>{
+                "refresh": "your_refresh_token"
+            }</pre>
+
+            <h3>Response</h3>
+
+            <pre>{
+    "access": "new_access_token"
+}</pre>
+        </section>
+
+
+        <!-- Responses -->
+        <section id="responses">
+            <h2>HTTP Response Codes</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status Code</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>200</td>
+                        <td>Request successful</td>
+                    </tr>
+
+                    <tr>
+                        <td>201</td>
+                        <td>Resource created successfully</td>
+                    </tr>
+
+                    <tr>
+                        <td>400</td>
+                        <td>Bad request / validation error</td>
+                    </tr>
+
+                    <tr>
+                        <td>401</td>
+                        <td>Authentication required or token invalid</td>
+                    </tr>
+
+                    <tr>
+                        <td>404</td>
+                        <td>Resource not found</td>
+                    </tr>
+
+                    <tr>
+                        <td>500</td>
+                        <td>Internal server error</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+</div>
+
+<footer>
+    @ Palak Batra. All rights reserved.
+</footer>
+
+</body>
+</html>

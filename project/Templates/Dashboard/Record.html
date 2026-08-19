@@ -17,11 +17,13 @@
     {% endif %}
 
 
-<div class="position-relative mb-4">
-    <h2 class="text-center mb-0">
-        Lead Dashboard
-    </h2>
 
+<div class="d-flex justify-content-between align-items-center position-relative">
+    <h2>Lead Dashboard</h2>
+    <a href="{% url 'Lead:Document' %}" class="btn btn-primary">API DOCUMENTATION</a>
+</div>
+
+{% comment %} 
     <div class="dropdown position-absolute top-0 end-0">
         <button
             class="btn btn-primary dropdown-toggle"
@@ -35,14 +37,13 @@
             <li><a class="dropdown-item" href="{% url 'Api:Add' %}">Add</a></li>
              <li><a class="dropdown-item" href="{% url 'Api:Token' %}">Get Token</a></li>
             <li><a class="dropdown-item" href="{% url 'Api:Refresh' %}">Refresh Token</a></li>
-            {% comment %} <li><a class="dropdown-item" href="{% url 'Api:Update' %}">Get Token</a></li>
-            <li><a class="dropdown-item" href="{% url 'Api:Delete' %}">Refresh Token</a></li> {% endcomment %}
+     
             <li><a class="dropdown-item" href="{% url 'Api:Pick' %}">Update / Delete</a></li>
         </ul>
     </div>
-</div>
+</div> {% endcomment %}
 <br>
- 
+
 
     <div class="row">
         <div class="col-md-3 mb-3">

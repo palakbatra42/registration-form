@@ -12,6 +12,7 @@ from rest_framework.views import exception_handler
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def Lead_list(request):
@@ -96,8 +97,6 @@ def custom_exception_handler(exc, context):
     return response
 
 
-# adjust import path to match where your Lead model actually lives
-
 @login_required(login_url='/login/')
 def Pick_action(request):
     if request.method == "POST":
@@ -106,10 +105,12 @@ def Pick_action(request):
 
         if pk and action in ("Update", "Delete"):
             url_name = f"Api:{action}"
-            return redirect(reverse(url_name, args=[pk]))
+            return redirect(reverse(url_name,args=[pk]))
 
     leads = Lead.objects.all().order_by('id')
     return render(request, "Dashboard/pick_action.html", {"leads": leads})
+
+
 
 #GIT COMMANDS USED TO UPLOAD PROJECT TO GITHUB
 

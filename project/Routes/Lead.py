@@ -16,4 +16,8 @@ urlpatterns = [
     path('update-status/<int:id>/', Lead.Update_status, name='Update_status'),
     path('detail/<int:id>/', Lead.Lead_detail, name='Lead_detail'),
     path('import/csv/',Lead.Import_csv, name='Import_csv'),
+    path('document/',Lead.Api_document,name="Document"),
+    path('detail/',Lead.Detail,name="Detail"),
+
+    
 ]
