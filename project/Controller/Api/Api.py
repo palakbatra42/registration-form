@@ -107,7 +107,7 @@ def Pick_action(request):
             return redirect(reverse(url_name,args=[pk]))
 
     leads = Lead.objects.all().order_by('id')
-    return render(request, "Dashboard/pick_action.html", {"leads": leads})
+    return render(request, "Dashboard/Pick_action.html", {"leads": leads})
 
 
 
