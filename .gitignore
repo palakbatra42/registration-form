@@ -1,8 +1,18 @@
+# Environment
 .env
 .venv/
+
+# Python
 __pycache__/
 *.pyc
+
+# Django
 staticfiles/
 *.sqlite3
+
+# Credentials
 project/Controller/Credentials/service.json
+
+# Misc
 newdb
+
