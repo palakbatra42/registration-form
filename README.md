@@ -480,9 +480,10 @@ The project is configured for deployment on **Railway** using the Railpack build
 4. **Set environment variables** in the Railway project's *Variables* tab — mirror everything from your local `.env` (`SECRET_KEY`, `DEBUG=False`, `ALLOWED_HOSTS`, `DB_*`, `EMAIL_*`, `GOOGLE_SHEETS_*`), plus `ALLOWED_HOSTS` should include your Railway-generated domain.
 5. **Confirm the build**: Railway will use the Railpack builder (`buildEnvironment: V3`) to detect and install dependencies from `requirements.txt` automatically.
 6. **Static files**: run `python manage.py collectstatic --noinput` as part of the build/release step so `staticfiles/` is populated for production.
-7. **Start command**: Railway launches the app via Gunicorn as defined in `railway.json`:
+7. **Start command**: Railway launches the app via Gunicorn as defined in `Procfile`:
    ```bash
-   gunicorn --access-logfile - --error-logfile - blog.wsgi:application
+   web: python manage.py collectstatic --noinput && gunicorn blog.wsgi --bind 0.0.0.0:$PORT
+
    ```
 8. **Region & scaling**: the app is configured to run 1 replica in the Amsterdam (`ams`) region, with automatic restarts on failure (up to 10 retries).
 9. **Run migrations** on the deployed environment (via Railway's shell/CLI):
