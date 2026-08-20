@@ -362,7 +362,6 @@ The dashboard provides lead management and reporting functionality, including:
 - Open leads
 - Converted leads
 - Lost leads
-- Conversion rate
 - Recent activity
 - Lead filtering and sorting
 - Export functionality
@@ -411,7 +410,7 @@ Import it into Postman to test JWT authentication, token refresh, lead CRUD oper
 
 ## Status Codes
 
-| Code | Description            |
+| Code | Description              |
 |------|--------------------------|
 | 200  | OK                       |
 | 201  | Created                  |
